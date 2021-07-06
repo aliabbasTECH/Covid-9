@@ -1,24 +1,25 @@
-// const [coviddata, getCovidData] = useState([]);
-// import {  useDispatch } from 'react-redux';
+import axios from "axios"
 
-// const url = 'https://api.covidtracking.com/v1/states/current.json';
+ const getdata=()=>{
+    return(dispatch)=>{  
+        
+    axios.get('https://api.covidtracking.com/v1/states/current.json')
+    .then(function (response) { dispatch({type:"GETDATA", data:response.data})  })   
+    }}
 
-// const getAllData=()=>{
-//        axios.get(url)
-//        .then( (res)=>{
-//            const alldata = res.data
-//            console.log(alldata)
-//            getCovidData(alldata)
-//        })
-//        .catch(error => console.log(`Error: ${error}`));
-//    }
+const getContry=()=>{
+    return(dispatch)=>{  
+         
+axios.get("https://restcountries.eu/rest/v2/all")
+    .then(function (response) { dispatch({type:"GETCOUNTRYDATA", country:response.data})  })
+    }}    
+
+export {
+    getdata,
+    getContry,
+}
 
 
-//     useEffect(() => { 
 
-//      getAllData();
 
-//     }, []);
 
-// let dispatch = useDispatch();
-//     dispatch({type:"UPDATEDATA", username:"basit"})

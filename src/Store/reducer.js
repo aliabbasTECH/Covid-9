@@ -1,27 +1,31 @@
-const INITIAL_STATE ={
-    // users:
-    // [
-    //     {
-    //         username:"ali",
-    //     },
-    //     {
-    //         username:"hassan",
-    //     },
+const INITIAL_STATE={
+    data:[
 
-    // ] ,
-    username: "aliabbas"
-}
+    ],
+    country:[
 
-export default (state = INITIAL_STATE,action) =>{
-    // console.log("reducer Action==>",action.username)
-    switch(action.type){
-        case "UPDATEDATA":
-            return({
+    ],
+    
+};
+
+const AppReducer =(state = INITIAL_STATE,action)=>{
+    console.log("this is reduser Action===>",action.country)
+    // console.log("this is reduser Action country===>",action.country)
+    switch (action.type){
+        case "GETDATA":
+            return{
                 ...state,
-                username: action.username
-            })
+                data:action.data
+            }
+        case "GETCOUNTRYDATA":
+            return{
+                ...state,
+                country:action.country
+            }
             default:
                 return state
     }
-} 
+    
+}
 
+export default AppReducer;

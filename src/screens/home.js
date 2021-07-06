@@ -1,103 +1,80 @@
 
-import { useSelector, useDispatch } from 'react-redux'
-import Parent from '../components/parent';
-import React from 'react'
-import axios from 'axios'
-import { useEffect,useState } from 'react'
+import React  from 'react'
+import { useEffect, useState  } from 'react'
+import { useSelector,useDispatch  } from 'react-redux'
+import {getdata,getContry} from '../Store/action'
+import Header from '../components/header'
+import Footer from '../components/footer'
+import Chart from '../components/chart'
+
 
 export default function Home() {
+    // const [covid, setCovid]=useState([])
+    // const [country, setCountry]=useState([])
 
+ 
+    const state =useSelector(state =>state)
+    const dispatch = useDispatch()
     
-    const [coviddata, getCovidData] = useState([]);
 
-
-    const url = 'https://api.covidtracking.com/v1/states/current.json';
-
-   const getAllData=()=>{
-       axios.get(url)
-       .then( (res)=>{
-           const alldata = res.data
-           console.log(alldata)
-           getCovidData(alldata)
-       })
-       .catch(error => console.log(`Error: ${error}`));
-   }
-
-
-    useEffect(() => { 
-
-     getAllData();
-
-    }, []);
-
-//    let state = useSelector(state => state);
-//    let dispatch = useDispatch();
-
-//    const updateData =()=>{
-//           dispatch({type:"UPDATEDATA", username:"basit"})
-//    }
-//    console.log(state)
-   
-
+    useEffect(()=>{
+      dispatch(getdata()) 
+      dispatch(getContry())
+      
+      // setCovid(state.data)
+      // setCountry(state.country)
+      
+   },[])
+   const country = state.country.map((e,i)=>{return  e.name})
+console.log("name of country",country)
     return (
+      <div>
+      <Header/>
+      <Chart/>
+
         <div className="container">
-
-
-
-
-
-<table className="table ">
-        <thead>
-          <tr>
-            <th scope="col">state</th>
-            <th scope="col">positive</th>
-            <th scope="col">totalTestResults</th>
-            <th scope="col">hospitalizedCurrently</th>
-            <th scope="col">dateModified</th>
-            <th scope="col">death</th>
-            <th scope="col">date</th>
-          </tr>
-        </thead>
-        <tbody>
-        {coviddata.map((e, i) => {
-                return <tr >
-                <td >{e.state}</td>
-                <td>{e.positive}</td>
-                <td>{e.totalTestResults}</td>
-                <td>{e.hospitalizedCurrently}</td>
-                <td>{e.dateModified}</td>
-                <td>{e.death}</td>
-                <td>{e.date}</td>
+      <div className="container mt-5">
+  <div className="d-flex justify-content-center row">
+    <div className="col-md-10">
+      <div className="rounded">
+        <div className="table-responsive table-borderd">
+          <table className="table">
+            <thead>
+              <tr>
+            <th className="text-center">Country</th>
+            <th className="text-center" scope="col">positive</th>
+            <th className="text-center" scope="col">hospitalizedCurrently</th>
+            <th className="text-center" scope="col">death</th>
+            <th className="text-center" scope="col">date</th>
+            <th className="text-center" scope="col">totalTestResults</th>
+                <th />
               </tr>
-            })}
+            </thead>
+            <tbody className="table-body">
             
-           
-       
-        </tbody>
-      </table>
-
-
-
-
-
-
-
-
-
-
-            {/* <h1>
-            Home
-            </h1> */}
-            {/* {state.users.map((v,i)=>
-            
-            <p> {v.username}</p>
-            
-            
-            )} */}
-            {/* <p>{state.username}</p>
-            <button onClick={updateData}>update</button> */}
-
-            
+            {state.data.map((e, i) => {
+             return (
+                     <tr className="cell-1">
+                       <td className="text-center">{e.state}</td>
+                       <td className="text-center">{e.positive}</td>
+                       <td className="text-center">{e.hospitalizedCurrently}</td>
+                       <td className="text-center">{e.death}</td>
+                       <td className="text-center">{e.dateModified}</td>
+                       <td className="text-center">{e.totalTestResults}</td>
+                       <td className="text-center"><i className="fa fa-ellipsis-h text-black-50" /></td>
+                    </tr>)
+             })}
+            </tbody>
+          </table>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<Footer/>
+      </div>
     )
 }
+
